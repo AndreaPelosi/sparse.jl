@@ -20,7 +20,7 @@ Contemporary computer architectures are good at processing linear and hierarchic
 In order to address these problems, a group of graph algorithms researchers came up with GraphBLAS.
 
 GraphBLAS aims to set standard building blocks for graph representation and computation in the language of linear algebra.
-Graph algorithms were already expressed in terms of operations on *sparse* matrices (matrices in which the majority of the elements are zero) but GraphBLAS takes a step further trying to standardize the approach. Amongst the many improvements GraphBLAS could lead, we point out efficiency, portability, compactness, composability and flexibility.
+Graph algorithms were already expressed in terms of operations on *sparse* matrices (matrices in which the majority of the elements are zero) but GraphBLAS goes a step further trying to standardize the approach. Amongst the many improvements GraphBLAS could lead, we point out efficiency, portability, compactness, composability and flexibility.
 
 To appreciate these advantages, we first introduce the mathematics upon which GraphBLAS is built. Notice though that the following introduction is far from comprehensive: we describe only what is relevant to fully understand *SPARSE*, along with some additional examples.
 
@@ -76,6 +76,46 @@ One of the main advantages GraphBLAS provides is that $\oplus$ and $\otimes$ cou
 
 
 ## Most common operations overview
+
+Besides matrix-matrix multiplication, there are a few other fundamental GraphBLAS operations by which a lot of graph algorithms can be expressed. Not all of them can be found in *SPARSE* source code. However, we present them, along with a brief explanation, to give a clear picture of what can be done with GraphBLAS. Note that $\mathbf{A}, \mathbf{B}, \mathbf{C}$ are matrices and $\mathbf{u}, \mathbf{v}, \mathbf{w}$ are vectors over the semiring $(\mathbb{S}, \oplus, \otimes)$.
+
+matrix build
+:
+
+vector build
+:
+
+assign
+:
+
+mxm:
+: $\mathbf{C} = \mathbf{A}\oplus.\otimes\mathbf{B}.$ Performs matrix-matrix multiplication between $\mathbf{A}$ and $\mathbf{B}$ and stores the result in the matrix $\mathbf{C}$. 
+
+vxm:
+: $\mathbf{w}^T = \mathbf{v}^T\oplus.\otimes\mathbf{A}.$ Performs vector-matrix multiplication between $\mathbf{v}^T$ and $\mathbf{A}$ and stores the result in the vector $\mathbf{w}^T$.
+
+mxv:
+: $\mathbf{w} = \mathbf{A}\oplus.\otimes\mathbf{v}.$ Performs matrix-vector multiplication between $\mathbf{A}$ and $\mathbf{v}$ and stores the result in the vector $\mathbf{w}$.
+
+eWiseAdd:
+: $\mathbf{C} = \mathbf{A} \oplus \mathbf{B}$ or $\mathbf{w} = \mathbf{u} \oplus \mathbf{v}.$ Performs element-wise $\oplus$ between $\mathbf{A}$ and $\mathbf{B}$ or $\mathbf{u}$ and $\mathbf{v},$ respectively. Stores the result in the matrix $\mathbf{C}$ or the vector $\mathbf{w},$ respectively.
+
+eWiseMult:
+: $\mathbf{C} = \mathbf{A} \otimes \mathbf{B}$ or $\mathbf{w} = \mathbf{u} \oplus \mathbf{v}.$ Performs element-wise $\otimes$ between $\mathbf{A}$ and $\mathbf{B}$ or $\mathbf{u}$ and $\mathbf{v},$ respectively. Stores the result in the matrix $\mathbf{C}$ or the vector $\mathbf{w},$ respectively.
+
+
+transpose
+:
+
+apply
+:
+
+extract
+:
+
+reduce
+:
+
 
 ## GraphBLAS objects
 
