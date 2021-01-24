@@ -19,9 +19,7 @@ function bfs_primitive(
     v[source] = 1;
 
     aux = spzeros(Bool, dim);
-    visited = spzeros(Bool, dim);
     toupdate = spzeros(Bool, dim);
-    r = spzeros(Int64, dim);
     @inbounds for level in 1:dim
      
         @inbounds for i in 1:dim
@@ -37,7 +35,6 @@ function bfs_primitive(
             toupdate[i] = iszero(v[i]) & aux[i];
         end        
 
-        #r .= toupdate .* (level+1);
         v .+= toupdate .* (level+1);
         
         if(!reduce(max,q))
@@ -48,15 +45,3 @@ function bfs_primitive(
     return v
 end
 
-
-#A = spzeros(Bool, 5, 5)
-#A[2,1] = true
-#A[1,3] = true
-#A[4,3] = true
-#A[3,4] = true
-#A[4,5] = true
-#A[4,2] = true
-
-#v = bfs_primitive(A,1)
-
-#println(v)
