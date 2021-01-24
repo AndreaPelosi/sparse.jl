@@ -14,7 +14,7 @@ include("../../src/GraphBLAS_bfs.jl")
 GrB_init(GrB_NONBLOCKING);
 
 # GraphBLAS matrix and vector dimensions 
-dim = 1000000;
+dim = 10000000;
 
 # Build a random sparse GraphBLAS matrix  
 A = GrB_Matrix(Int64, dim, dim);
