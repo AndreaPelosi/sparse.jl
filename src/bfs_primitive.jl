@@ -10,16 +10,21 @@ function bfs_primitive(
     source::U
     ) where {T, U <: Integer}
 
-    dim = size(A, 2);
+    source > 0 || throw(ArgumentError("source must be positive"))
+
+    dim = size(A, 2)
+    # Input matrix must be square
+    size(A, 1) == dim || throw(DimensionMismatch())
+
     q = BitArray(undef, dim)
-    q[source] = true;
+    q[source] = true
 
     # Create v, make it dense
-    v = zeros(Int64, dim);
-    v[source] = 1;
+    v = zeros(Int64, dim)
+    v[source] = 1
 
     aux = similar(q)
-    toupdate = spzeros(Bool, dim);
+    toupdate = spzeros(Bool, dim)
 
     @inbounds for level in 1:dim
      
@@ -38,21 +43,22 @@ function bfs_primitive(
         #end
 
         aux = broadcast(!iszero, A'*q)
-        copy!(q, aux);
+        copy!(q, aux)
 
         # toupdate[i] = true iff vertex i is 
         # in the frontier and was not visited before
         @inbounds for i in eachindex(toupdate)
-            toupdate[i] = iszero(v[i]) & aux[i];
-        end        
+            toupdate[i] = iszero(v[i]) & aux[i]
+        end
 
-        v .+= toupdate .* (level+1);
+        v .+= toupdate .* (level+1)
         
         if(!reduce(max,q))
-            break;
+            break
         end
     end
 
     return v
 end
 
+using SparseArrays

@@ -10,15 +10,18 @@ function GraphBLAS_bfs_cvd(
     source::Int
     )
 
-    nrows = size(A,1);
+    source > 0 || throw(ArgumentError("source must be positive"))
+    
+    nrows = size(A,1)
+    size(A, 2) == nrows || throw(DimensionMismatch("Input matrix must be square"))
 
-    q = from_lists([source], [true], n = nrows);
-    desc = descriptor(outp=>SuiteSparseGraphBLAS.replace, mask=>scmp);
+    q = from_lists([source], [true], n = nrows)
+    desc = descriptor(outp=>SuiteSparseGraphBLAS.replace, mask=>scmp)
     v = from_type(Int64, nrows)
 
     for i in 1:nrows-1
-        @with q v[:] = i;
-        vxm(q, A, out = q, semiring = Semirings.LOR_LAND, mask = v, desc = desc);
+        @with q v[:] = i
+        vxm(q, A, out = q, semiring = Semirings.LOR_LAND, mask = v, desc = desc)
         if !reduce(q, monoid = Monoids.LOR)
             break            
         end
