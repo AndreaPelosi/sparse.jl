@@ -7,7 +7,7 @@ using SuiteSparseGraphBLAS
 
 function GraphBLAS_bfs_cvd(
     A::GBMatrix,
-    source::Int
+    source::Integer
     )
 
     source > 0 || throw(ArgumentError("source must be positive"))

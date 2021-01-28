@@ -8,7 +8,7 @@ function GraphBLAS_bfs!(
     A::GrB_Matrix{T}, 
     v::GrB_Vector{U}, 
     source::ZeroBasedIndex
-    ) where {T, U<:Int64}
+    ) where {T, U<:Integer}
  
     n = GrB_Matrix_ncols(A)
 

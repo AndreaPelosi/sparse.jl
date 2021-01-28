@@ -8,7 +8,7 @@ using SparseArrays
 function bfs_primitive(
     A::SparseMatrixCSC{Bool, U},
     source::U
-    ) where {T, U <: Integer}
+    ) where {U <: Integer}
 
     source > 0 || throw(ArgumentError("source must be positive"))
 
