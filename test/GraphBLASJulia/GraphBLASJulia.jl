@@ -5,13 +5,14 @@ Pkg.activate("./GraphBLASJulia/")
 include("../../src/GraphBLAS_bfs.jl")
 include("../../src/GraphBLAS_sparse_square_matrix.jl")
 
-# Add valid test forall valid types of GrB_Matrix
 
 GrB_init(GrB_NONBLOCKING);
 
 
 @testset "GraphBLASJulia" begin
     
+### algorithm correctness test
+
     dim = 6;
     
     A = GrB_Matrix(Int64, dim, dim)
@@ -38,4 +39,15 @@ GrB_init(GrB_NONBLOCKING);
 
     @test v == sol
 
+
+    ### exception throw tests
+
+    w = GrB_Vector(Int64, dim+1)
+    @test_throws DimensionMismatch GraphBLAS_bfs!(A, w, ZeroBasedIndex(0))
+
+    B = GrB_Matrix(Int64, dim, dim+1)
+    @test_throws DimensionMismatch GraphBLAS_bfs!(B, v, ZeroBasedIndex(0))
+
+    z = GrB_Vector(Float64, dim)
+    @test_throws MethodError GraphBLAS_bfs!(A, z, ZeroBasedIndex(0))
 end
