@@ -1,0 +1,3 @@
+[deps]
+SuiteSparseGraphBLAS = "2ac7369f-bb01-4195-9f57-39720472530e"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

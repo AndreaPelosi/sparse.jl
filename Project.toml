@@ -2,3 +2,7 @@ name = "sparse"
 uuid = "005323b8-0a30-4f7e-8095-4721ce50d08b"
 authors = ["andreapelosi <andreapelosi97@gmail.com>"]
 version = "0.1.0"
+
+[deps]
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
