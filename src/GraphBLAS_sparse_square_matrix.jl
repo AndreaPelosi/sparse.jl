@@ -10,19 +10,19 @@ function GraphBLAS_sparse_square_matrix!(
     dim::Int) where T
 
     # Build A with at most sqrt(N) elements, N being the number of nonzero matrix elements
-    ntuples = dim;
+    ntuples = dim
 
     for k in 1:ntuples
 
-        i = ZeroBasedIndex(rand(0:dim-1));
-        j = ZeroBasedIndex(rand(0:dim-1));
-        x = rand(T);
+        i = ZeroBasedIndex(rand(0:dim-1))
+        j = ZeroBasedIndex(rand(0:dim-1))
+        x = rand(T)
 
-        GrB_Matrix_setElement(A, x, i, j);
+        GrB_Matrix_setElement(A, x, i, j)
     end
 
     # Force pending operations to complete and return
-    GrB_wait();
+    GrB_wait()
     
     return (GrB_SUCCESS)
 end

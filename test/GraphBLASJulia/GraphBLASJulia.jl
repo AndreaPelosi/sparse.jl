@@ -42,12 +42,16 @@ GrB_init(GrB_NONBLOCKING);
 
     ### exception throw tests
 
+    # Input matrix and vector have different dimensions
     w = GrB_Vector(Int64, dim+1)
     @test_throws DimensionMismatch GraphBLAS_bfs!(A, w, ZeroBasedIndex(0))
 
+    # Input matrix is not square
     B = GrB_Matrix(Int64, dim, dim+1)
     @test_throws DimensionMismatch GraphBLAS_bfs!(B, v, ZeroBasedIndex(0))
 
+    # Input vector has an invalid type
     z = GrB_Vector(Float64, dim)
     @test_throws MethodError GraphBLAS_bfs!(A, z, ZeroBasedIndex(0))
+    
 end
