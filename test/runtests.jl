@@ -4,7 +4,7 @@ using Test
 const testdir = dirname(@__FILE__)
 
 tests = [
-    "GraphBLASJulia",
+    #"GraphBLASJulia",
     "GraphBLASJuliaCvdlab",
     "PrimitiveJulia"    
 ]
