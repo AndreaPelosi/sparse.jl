@@ -2,8 +2,21 @@
 
 using SparseArrays
 
-# generate a random sparse square matrix with dim rows and columns;
-# each entry has (independent) p probability being nonzero
+
+"""
+    sparse_square_matrix(dim::Integer, mat_type=Float64)
+
+Build a random sparse square matrix of dimension 'dim'x'dim' using Julia primitives.
+
+Each entry has (independent) p probability being nonzero.
+
+#Examples 
+```julia-repl
+julia> dim = 100
+
+julia> A = sparse_square_matrix(dim, Bool)
+```
+"""
 function sparse_square_matrix(dim::Integer, mat_type=Float64)
     # Build matrix using SparseArrays primitive
     # p = 0.2;
@@ -24,8 +37,20 @@ function sparse_square_matrix(dim::Integer, mat_type=Float64)
     return A
 end 
 
-# generate a random sparse square matrix with random dimensions;
-# each entry has (independent) p probability being nonzero
+
+"""
+    sparse_square_matrix(mat_type=Float64)
+
+Build a random sparse square matrix with random dimensions using Julia primitives.
+
+Each entry has (independent) p probability being nonzero.
+
+#Examples 
+```julia-repl
+
+julia> A = sparse_square_matrix(Bool)
+```
+"""
 function sparse_square_matrix(mat_type=Float64)
     dim = rand(10^3:10^4);
     p = 0.2;

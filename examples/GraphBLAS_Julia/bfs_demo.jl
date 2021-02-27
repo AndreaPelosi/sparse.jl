@@ -1,8 +1,6 @@
 # BFS demo using abhinavmehndiratta SuiteSparseGraphBLAS Julia wrapper
 # (can be found at https://github.com/abhinavmehndiratta/SuiteSparseGraphBLAS.jl)
 
-# TODO handle for GraphBLAS errors 
-
 using Pkg
 Pkg.activate(".")
 

@@ -1,10 +1,23 @@
 # BFS algorithm using Julia stdlib primitives
 
-# TODO add a function that, given A sparse matrix of type T,
-# outputs the matrix BoolA where every nonzero A element 
-# corresponds to true in BoolA
 using SparseArrays
 
+"""
+    bfs_primitive(A::SparseMatrixCSC{Bool, U}, source::U) where {U <: Integer}
+
+Compute BFS on the graph represented by 'A' starting from 'source' using Julia primitives.
+
+#Examples 
+```julia-repl
+julia> dim = 100
+
+julia> A = sparse_square_matrix(dim, Bool)
+
+julia> source = 1
+
+julia> bfs_primitive(A,source)
+```
+"""
 function bfs_primitive(
     A::SparseMatrixCSC{Bool, U},
     source::U
@@ -28,20 +41,6 @@ function bfs_primitive(
 
     @inbounds for level in 1:dim
      
-        #@inbounds for i in 1:dim
-            # update the frontier
-         #   aux[i] = reduce(max, q .& @view(A[:,i]));
-        #end
-        #aux .= reduce(max, q .& @view(A[:,i]));
-
-        #@inbounds for i in 1:dim
-        #    acc = 0;
-        #    for j in eachindex(@view(A[:,i]))
-        #        acc += (q[j] & A[j,i]);
-        #    end
-        #    aux[i] = !iszero(acc);
-        #end
-
         aux = broadcast(!iszero, A'*q)
         copy!(q, aux)
 

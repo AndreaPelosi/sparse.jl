@@ -1,9 +1,39 @@
 # BFS simple algorithm using abhinavmehndiratta SuiteSparseGraphBLAS Julia wrapper
 # (can be found at https://github.com/abhinavmehndiratta/SuiteSparseGraphBLAS.jl)
 
-# TODO handle for GraphBLAS errors 
 using SuiteSparseGraphBLAS, GraphBLASInterface
 
+"""
+    function GraphBLAS_bfs!(A, v, source)
+
+Compute BFS on the graph represented by 'A' starting from 'source' 
+using GraphBLAS. The output is written in v.
+
+#Arguments
+- `A::GrB_Matrix{T}`: the matrix representing input graph
+- `v::GrB_Vector{U}, U<:Integer`: the vector that will contain BFS output
+- `source::ZeroBasedIndex`: the source from which BFS starts
+
+#Examples 
+```julia-repl
+
+julia> GrB_init(GrB_NONBLOCKING)
+
+julia> dim = 100
+
+julia> A = GrB_Matrix(Int64, dim, dim)
+
+julia> GraphBLAS_sparse_square_matrix!(A, dim)
+
+julia> v = GrB_Vector(Int64, dim)
+
+julia> GraphBLAS_bfs!(A, v, ZeroBasedIndex(0))
+
+julia> dropzeros!(v)
+
+julia> GrB_wait()
+```
+"""
 function GraphBLAS_bfs!(
     A::GrB_Matrix{T}, 
     v::GrB_Vector{U}, 
