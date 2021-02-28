@@ -127,14 +127,23 @@ Two different GraphBLAS implementations written in Julia are used to build *BFS*
 * [SuiteSparseGraphBLAS.jl](https://github.com/abhinavmehndiratta/SuiteSparseGraphBLAS.jl) by Abhinav Mehndiratta. It tries to adhere as much as possible to the GraphBLAS C API Specification (see https://people.eecs.berkeley.edu/~aydin/GraphBLAS_API_C_v13.pdf), and has currently implemented the majority of fundamental GraphBLAS primitives;
 * [SuiteSparseGraphBLAS.jl](https://github.com/cvdlab/SuiteSparseGraphBLAS.jl) by Computational Visual Design Lab, laboratory located in RomaTre University, related to the Department of Computer Engineering and the Department of Mathematics and Physics (for additional information, visit http://cvdlab.org/). This implementation is a fork of the former, and brings fundamental GraphBLAS primitive in a more "Julian" fashion.
 
-Notice that, precisely speaking, both the first and the second implementation presented are just wrappers for SuiteSparse:GraphBLAS (see https://github.com/DrTimothyAldenDavis/GraphBLAS), one of the main full implementation of GraphBLAS standard, that implements in turn the GraphBLAS C API Specification.
+Notice that, precisely speaking, both the first and the second implementation presented are just wrappers for the C library SuiteSparse:GraphBLAS (see https://github.com/DrTimothyAldenDavis/GraphBLAS), one of the main full implementation of GraphBLAS standard, that implements in turn the GraphBLAS C API Specification.
 
-The main reason why we chose to use different GraphBLAS implementations is to show how two slightly different implementations of the same library (difference not easily noticeable from a user point of view) could possibly influence algorithm final performance. 
+The main reason why we use different GraphBLAS wrappers is to show how two slightly different implementations of the same library (difference not easily noticeable from a user point of view) could influence ease of use and investigate if they influence algorithm final performance, too. 
 
 ## SparseArrays.jl
 The last *BFS* implementation is based on the standard library package SparseArrays.jl and shares the same core idea as the other two in a way that will be explicited in the next section.
 
 # Algorithm description
+The (undirected) graph which we want to test is represented as the $n \times n$ adiacency matrix $A$. Algorithm is given the source $s$ from which *BFS* starts, too. The core idea behind the different implementations is the same:
+
+there are two vectors $v$ and $q$ of length $n$, representing respectively the level of each graph node in the *BFS* and the set of nodes belonging to the *frontier* (namely the nodes discovered in one of the at most $n$ iterations that *BFS* does). At each *BFS* iteration, there is a matrix-vector product between $A$ and $q$ resulting in a frontier update (one can easily verify that; for an explicit example of this property, see [Kepner]). Vector $v$ is updated: $v[i] = currentlevel$ if the node $i$ is visited (namely, appears in the frontier) for the first time. Nodes already visited are masked out from the frontier, and the algorithm loops until $n$ iterations are done or until the frontier empties.
+
+GraphBLAS based *BFSs* have several advantages over the SparseArrays based *BFS*: just a few standard GraphBLAS operations are needed in order to write the algorithm and, in the algorithm design phase, it is easy to choose the semiring that best suits the wanted operation (notice that, just choosing another semiring, one could go a step further and possibly analyze different properties of the same graph with very little effort). 
+Moreover, there is no need to build from scratch a heavily optimized algorithm, since every GraphBLAS operation is internally optimized; thus, using different GraphBLAS primitives results in an efficient algorithm.
+
+On the contrary, building a SparseArrays based *BFS* (without referring to one of the highly efficient *BFS* implementations present in literature) requires explicit optimizations and clever usage of the features Julia provides, and even that is not enough to produce something which could reach the performance of GraphBLAS based *BFS*.
+
 
 # Benchmark results
 
