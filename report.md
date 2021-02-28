@@ -8,8 +8,8 @@ output:
 ---
 
 
-In this document we present *SPARSE*, a Julia package developed as part of the course [IN480 - Parallel and Distributed Computing](http://www.dia.uniroma3.it/~paoluzzi/web/did/calcoloparallelo/2021/). 
-In *SPARSE*, we port and benchmark a graph algorithm built upon GraphBLAS, a mathematical abstraction to represent and operate with graphs using just a narrow set of linear algebra primitives.
+In this document we present *SPARSE*, a Julia package developed as part of the course [IN480 - Parallel and Distributed Computing](http://www.dia.uniroma3.it/~paoluzzi/web/did/calcoloparallelo/2021/), Roma Tre University. 
+In *SPARSE*, we propose and benchmark against each other three different Breadth First Search (*BFS*) algorithm implementations. Two of them are built upon GraphBLAS, a mathematical abstraction to represent and operate with graphs using just a narrow set of linear algebra primitives, while the other one relies upon Julia standard packages to operate with sparse matrices (that could be used to represent graphs).
 
 *SPARSE* source code can be found at [*sparse.jl*](https://github.com/AndreaPelosi/sparse.jl).
 
@@ -48,7 +48,7 @@ Thus, without loss of generality, we can denote a GraphBLAS matrix as:
 
 A GraphBLAS column vector is a GraphBLAS matrix where $n=1$; a GraphBLAS row vector is a GraphBLAS matrix where $m=1$. 
 For the sake of brevity we shall refer to matrices and vectors instead of GraphBLAS matrices and GraphBLAS vectors. 
-Notice that, even though vectors and matrices are usually sparse, the correctness of the GraphBLAS model is independent from such sparsity. 
+Notice that, even though vectors and matrices are usually sparse (for instance, *SPARSE* is one of such cases), the correctness of the GraphBLAS model is independent from sparsity. 
 
 ### GraphBLAS fundamental building block
 
@@ -119,7 +119,23 @@ reduce
 
 ## GraphBLAS objects
 
-## SuiteSparse:GraphBLAS and SuiteSparse:GraphBLAS.jl
+# Main packages used
 
+## SuiteSparse:GraphBLAS.jl
+Two different GraphBLAS implementations written in Julia are used to build *BFS* algorithm:
+
+* [SuiteSparseGraphBLAS.jl](https://github.com/abhinavmehndiratta/SuiteSparseGraphBLAS.jl) by Abhinav Mehndiratta. It tries to adhere as much as possible to the GraphBLAS C API Specification (see https://people.eecs.berkeley.edu/~aydin/GraphBLAS_API_C_v13.pdf), and has currently implemented the majority of fundamental GraphBLAS primitives;
+* [SuiteSparseGraphBLAS.jl](https://github.com/cvdlab/SuiteSparseGraphBLAS.jl) by Computational Visual Design Lab, laboratory located in RomaTre University, related to the Department of Computer Engineering and the Department of Mathematics and Physics (for additional information, visit http://cvdlab.org/). This implementation is a fork of the former, and brings fundamental GraphBLAS primitive in a more "Julian" fashion.
+
+Notice that, precisely speaking, both the first and the second implementation presented are just wrappers for SuiteSparse:GraphBLAS (see https://github.com/DrTimothyAldenDavis/GraphBLAS), one of the main full implementation of GraphBLAS standard, that implements in turn the GraphBLAS C API Specification.
+
+The main reason why we chose to use different GraphBLAS implementations is to show how two slightly different implementations of the same library (difference not easily noticeable from a user point of view) could possibly influence algorithm final performance. 
+
+## SparseArrays.jl
+The last *BFS* implementation is based on the standard library package SparseArrays.jl and shares the same core idea as the other two in a way that will be explicited in the next section.
 
 # Algorithm description
+
+# Benchmark results
+
+# Conclusions 
