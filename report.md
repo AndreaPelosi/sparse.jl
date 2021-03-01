@@ -10,7 +10,7 @@ output:
 ---
 
 
-In this document we present *SPARSE*, a Julia package developed as part of the course [IN480 - Parallel and Distributed Computing](http://www.dia.uniroma3.it/~paoluzzi/web/did/calcoloparallelo/2021/), Roma Tre University. 
+In this document we present *SPARSE* project and sparse.jl, its associated Julia package developed as part of the course [IN480 - Parallel and Distributed Computing](http://www.dia.uniroma3.it/~paoluzzi/web/did/calcoloparallelo/2021/), Roma Tre University. 
 In *SPARSE*, we propose and benchmark against each other three different Breadth First Search (*BFS*) algorithm implementations. Two of them are built upon GraphBLAS, a mathematical abstraction to represent and operate with graphs using just a narrow set of linear algebra primitives, while the other one relies upon Julia standard packages to operate with sparse matrices (that could be used to represent graphs).
 
 *SPARSE* source code can be found at [*sparse.jl*](https://github.com/AndreaPelosi/sparse.jl).
@@ -28,8 +28,6 @@ To appreciate these advantages, we first introduce the mathematics upon which Gr
 
 
 ## Theoretical foundations
-
-[add references]
 
 ### Matrices as graph displaying tools
 
@@ -65,7 +63,7 @@ Semiring
   * Multiplication distributes over addition;
   * The element $0$ is a multiplicative annihilator.
 
-One of the main advantages GraphBLAS provides is that $\oplus$ and $\otimes$ could be user-defined. Here there are some semirings examples widely used with graph algorithms (from [add reference]):
+One of the main advantages GraphBLAS provides is that $\oplus$ and $\otimes$ could be user-defined. Here there are some semirings examples widely used with graph algorithms (from @bulucc2017design):
 
 | Semiring            | $\oplus$  | $\otimes$ | domain                           | **0**       | **1** |
 | ------------------- | --------- | --------- | -------------------------------- | ----------- | ----- |
@@ -79,44 +77,34 @@ One of the main advantages GraphBLAS provides is that $\oplus$ and $\otimes$ cou
 
 ## Most common operations overview
 
-Besides matrix-matrix multiplication, there are a few other fundamental GraphBLAS operations by which a lot of graph algorithms can be expressed. Not all of them can be found in *SPARSE* source code. However, we present them, along with a brief explanation, to give a clear picture of what can be done with GraphBLAS. Note that $\mathbf{A}, \mathbf{B}, \mathbf{C}$ are matrices and $\mathbf{u}, \mathbf{v}, \mathbf{w}$ are vectors over the semiring $(\mathbb{S}, \oplus, \otimes)$.
+Besides matrix-matrix multiplication, there are a few other fundamental GraphBLAS operations by which a lot of graph algorithms can be expressed. Not all of them can be found in sparse.jl source code. However, we present them, along with a brief explanation, to give some insight of what can be done with GraphBLAS. Note that $\mathbf{A}, \mathbf{B}, \mathbf{C}$ are matrices and $\mathbf{u}, \mathbf{v}, \mathbf{w}$ are vectors over the semiring $(\mathbb{S}, \oplus, \otimes)$. For a complete list, refer to @kepner2017graphblas and @buluc2017graphblas.
 
-matrix build
-:
+matrix build:
+: Build a sparse matrix from row, column and value tuples.
 
-vector build
-:
+vector build:
+: Build a sparse vector from index value tuples.
 
-assign
-:
+assign:
+: $\mathbf{C}(\mathbf{i},\mathbf{j}) \oplus = \mathbf{A}(\mathbf{i}, \mathbf{j}).$ Perform an assignment of the values at $\mathbf{A}(\mathbf{i},\mathbf{j})$ to the corresponding vertices in $\mathbf{C}.$ 
 
 mxm:
-: $\mathbf{C} = \mathbf{A}\oplus.\otimes\mathbf{B}.$ Performs matrix-matrix multiplication between $\mathbf{A}$ and $\mathbf{B}$ and stores the result in the matrix $\mathbf{C}$. 
+: $\mathbf{C} = \mathbf{A}\oplus.\otimes\mathbf{B}.$ Perform matrix-matrix multiplication between $\mathbf{A}$ and $\mathbf{B}$ and store the result in the matrix $\mathbf{C}$. 
 
 vxm:
-: $\mathbf{w}^T = \mathbf{v}^T\oplus.\otimes\mathbf{A}.$ Performs vector-matrix multiplication between $\mathbf{v}^T$ and $\mathbf{A}$ and stores the result in the vector $\mathbf{w}^T$.
+: $\mathbf{w}^T = \mathbf{v}^T\oplus.\otimes\mathbf{A}.$ Perform vector-matrix multiplication between $\mathbf{v}^T$ and $\mathbf{A}$ and store the result in the vector $\mathbf{w}^T$.
 
 mxv:
-: $\mathbf{w} = \mathbf{A}\oplus.\otimes\mathbf{v}.$ Performs matrix-vector multiplication between $\mathbf{A}$ and $\mathbf{v}$ and stores the result in the vector $\mathbf{w}$.
+: $\mathbf{w} = \mathbf{A}\oplus.\otimes\mathbf{v}.$ Perform matrix-vector multiplication between $\mathbf{A}$ and $\mathbf{v}$ and store the result in the vector $\mathbf{w}$.
 
 eWiseAdd:
-: $\mathbf{C} = \mathbf{A} \oplus \mathbf{B}$ or $\mathbf{w} = \mathbf{u} \oplus \mathbf{v}.$ Performs element-wise $\oplus$ between $\mathbf{A}$ and $\mathbf{B}$ or $\mathbf{u}$ and $\mathbf{v},$ respectively. Stores the result in the matrix $\mathbf{C}$ or the vector $\mathbf{w},$ respectively.
+: $\mathbf{C} = \mathbf{A} \oplus \mathbf{B}$ or $\mathbf{w} = \mathbf{u} \oplus \mathbf{v}.$ Perform element-wise $\oplus$ between $\mathbf{A}$ and $\mathbf{B}$ or $\mathbf{u}$ and $\mathbf{v},$ respectively. Store the result in the matrix $\mathbf{C}$ or the vector $\mathbf{w},$ respectively.
 
 eWiseMult:
-: $\mathbf{C} = \mathbf{A} \otimes \mathbf{B}$ or $\mathbf{w} = \mathbf{u} \oplus \mathbf{v}.$ Performs element-wise $\otimes$ between $\mathbf{A}$ and $\mathbf{B}$ or $\mathbf{u}$ and $\mathbf{v},$ respectively. Stores the result in the matrix $\mathbf{C}$ or the vector $\mathbf{w},$ respectively.
+: $\mathbf{C} = \mathbf{A} \otimes \mathbf{B}$ or $\mathbf{w} = \mathbf{u} \oplus \mathbf{v}.$ Perform element-wise $\otimes$ between $\mathbf{A}$ and $\mathbf{B}$ or $\mathbf{u}$ and $\mathbf{v},$ respectively. Store the result in the matrix $\mathbf{C}$ or the vector $\mathbf{w},$ respectively.
 
-
-transpose
-:
-
-apply
-:
-
-extract
-:
-
-reduce
-:
+apply:
+: $\mathbf{C}\oplus = f(\mathbf{A}).$ Apply the unary function $f$ to the matrix $\mathbf{A}.$ Store the result in the matrix $\mathbf{C}.$
 
 
 
@@ -138,7 +126,7 @@ The last *BFS* implementation is based on the standard library package SparseArr
 # Algorithm description
 The (undirected) graph which we want to test is represented as the $n \times n$ adiacency matrix $A$. Algorithm is given the source $s$ from which *BFS* starts, too. The core idea behind the different implementations is the same:
 
-there are two vectors $v$ and $q$ of length $n$, representing respectively the level of each graph node in the *BFS* and the set of nodes belonging to the *frontier* (namely the nodes discovered in one of the at most $n$ iterations that *BFS* does). At each *BFS* iteration, there is a matrix-vector product between $A$ and $q$ resulting in a frontier update (one can easily verify that; for an explicit example of this property, see [Kepner]). Vector $v$ is updated: $v[i] = k$ if the node $i$ is visited (namely, appears in the frontier) for the first time at the $k$-th iteration. Nodes already visited are masked out from the frontier, and the algorithm loops until $n$ iterations are done or until the frontier empties.
+there are two vectors $v$ and $q$ of length $n$, representing respectively the level of each graph node in the *BFS* and the set of nodes belonging to the *frontier* (namely the nodes discovered in one of the at most $n$ iterations that *BFS* does). At each *BFS* iteration, there is a matrix-vector product between $A$ and $q$ resulting in a frontier update (one can easily verify that; for an explicit example of this property, see @kepner2017graphblas). Vector $v$ is updated: $v[i] = k$ if the node $i$ is visited (namely, appears in the frontier) for the first time at the $k$-th iteration. Nodes already visited are masked out from the frontier, and the algorithm loops until $n$ iterations are done or until the frontier empties.
 
 GraphBLAS based *BFSs* have several advantages over the SparseArrays based *BFS*: just a few standard GraphBLAS operations are needed in order to write the algorithm and, in the algorithm design phase, it is easy to choose the semiring that best suits the wanted operation (notice that, just choosing another semiring, one could go a step further and possibly analyze different properties of the same graph with very little effort). 
 Moreover, there is no need to build from scratch a heavily optimized algorithm, since every GraphBLAS operation is internally optimized; thus, using different GraphBLAS primitives results in an efficient algorithm.
@@ -147,7 +135,7 @@ On the contrary, building a SparseArrays based *BFS* (without referring to one o
 
 
 # Benchmark results
-We present benchmark results for the three *BFS* algorithms implemented in *SPARSE.* In order to have a statistically accurate benchmark, we use BenchmarkTools.jl, a Julia package devoted to track Julia code performance in a statistically accurate manner. All the tests were executed on a machine with a Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz capable of $4.594591126143963e10$ *FLOPs* (Floating Point Operations per second), estimated through the Julia function `peakflops()`.
+We present benchmark results for the three *BFS* algorithms implemented in sparse.jl. In order to have a statistically accurate benchmark, we use BenchmarkTools.jl, a Julia package devoted to track Julia code performance in a statistically accurate manner. All the tests were executed on a machine with a Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz capable of $4.594591126143963e10$ *FLOPs* (Floating Point Operations per second), estimated through the Julia function `peakflops()`.
 
 
 ## `GraphBLAS_bfs!`
@@ -329,3 +317,8 @@ BenchmarkTools.Trial:
 A few consideration emerge from the benchmark. While `GraphBLAS_bfs!` algorithm is a little faster for small inputs compared with `GraphBLAS_bfs_cvd`, the latter becomes faster for very large inputs. On the other side, the former has lower memory usage even for large inputs compared with the latter. As regards to `bfs_primitive` algorithm, we observe that it is not as efficient as the other two, to the point that running `bfs_primitive` on large inputs becomes impractical (especially for the amount of time needed by the computation to give an output). 
 
 # Conclusions 
+In this document we have talked about *SPARSE* project and its associated Julia package sparse.jl. Our aim was to present GraphBLAS, a cutting edge mathematical abstraction for operating with very large graphs using the language of linear algebra, and to benchmark three different *BFS* implementations in order to show the advantages that working with a high performance standard such as GraphBLAS could bring to the world of graph algorithms. 
+
+
+
+# References
