@@ -9,11 +9,12 @@ include("GraphBLAS_bfs.jl")
 include("GraphBLAS_sparse_square_matrix.jl")
 #include("GraphBLAS_sparse_square_matrix_cvd.jl")
 include("sparse_square_matrix.jl")
-
+include("../examples/runexamples.jl")
 
 export bfs_primitive, sparse_square_matrix
 
 export GraphBLAS_bfs!, GraphBLAS_sparse_square_matrix!
 #export GraphBLAS_bfs_cvd, GraphBLAS_sparse_square_matrix_cvd!
+export runexamples
 
 end # module
