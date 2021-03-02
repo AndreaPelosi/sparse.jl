@@ -5,7 +5,7 @@ using SparseArrays
 """
     bfs_primitive(A::SparseMatrixCSC{Bool, U}, source::U) where {U <: Integer}
 
-Compute BFS on the graph represented by 'A' starting from 'source' using Julia primitives.
+Compute BFS on the graph represented by `A` starting from `source` using Julia primitives.
 
 # Examples
 ```julia-repl

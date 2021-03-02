@@ -6,7 +6,7 @@ using SuiteSparseGraphBLAS, GraphBLASInterface
 """
     function GraphBLAS_bfs!(A, v, source)
 
-Compute BFS on the graph represented by 'A' starting from 'source' 
+Compute BFS on the graph represented by `A` starting from `source` 
 using GraphBLAS. The output is written in v.
 
 # Arguments

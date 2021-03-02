@@ -6,7 +6,7 @@ using GraphBLASInterface, SuiteSparseGraphBLAS
 """
     GraphBLAS_sparse_square_matrix!(A::GrB_Matrix{T}, dim::Int) where T
 
-Build a random sparse square matrix of dimension 'dim'x'dim' using GraphBLAS.
+Build a random sparse square matrix of dimension `dim`x`dim` using GraphBLAS.
 """
 function GraphBLAS_sparse_square_matrix!(
     A::GrB_Matrix{T}, 

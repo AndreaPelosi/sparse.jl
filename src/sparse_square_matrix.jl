@@ -6,7 +6,7 @@ using SparseArrays
 """
     sparse_square_matrix(dim::Integer, mat_type=Float64)
 
-Build a random sparse square matrix of dimension 'dim'x'dim' using Julia primitives.
+Build a random sparse square matrix of dimension `dim`x`dim` using Julia primitives.
 """
 function sparse_square_matrix(dim::Integer, mat_type=Float64)
 
@@ -31,7 +31,7 @@ end
 
 Build a random sparse square matrix with random dimensions using Julia primitives.
 
-Each entry has (independent) p probability being nonzero.
+Each entry has (independent) probability `p` being nonzero.
 """
 function sparse_square_matrix(mat_type=Float64)
     dim = rand(10^3:10^4);

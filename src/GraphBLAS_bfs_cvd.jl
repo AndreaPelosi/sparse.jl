@@ -8,7 +8,7 @@ using SuiteSparseGraphBLAS
 """
     GraphBLAS_bfs_cvd(A::GBMatrix, source::Integer)
 
-Compute BFS on the graph represented by 'A' starting from 'source' 
+Compute BFS on the graph represented by `A` starting from `source` 
 using GraphBLAS CVD version.
 
 # Examples 
