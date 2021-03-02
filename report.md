@@ -11,7 +11,7 @@ output:
 
 
 In this document we present *SPARSE* project and sparse.jl, its associated Julia package developed as part of the course [IN480 - Parallel and Distributed Computing](http://www.dia.uniroma3.it/~paoluzzi/web/did/calcoloparallelo/2021/), Roma Tre University. 
-In *SPARSE*, we propose and benchmark against each other three different Breadth First Search (*BFS*) algorithm implementations. Two of them are built upon GraphBLAS, a mathematical abstraction to represent and operate with graphs using just a narrow set of linear algebra primitives, while the other one relies upon Julia standard packages to operate with sparse matrices (that could be used to represent graphs).
+In *SPARSE*, we propose and benchmark against each other three different Breadth First Search (*BFS*) algorithm implementations. Two of them are built upon GraphBLAS, a mathematical abstraction to represent and operate with graphs using just a narrow set of linear algebra primitives, while the other one relies upon Julia standard packages to operate with sparse matrices.
 
 *SPARSE* source code can be found at [*sparse.jl*](https://github.com/AndreaPelosi/sparse.jl).
 
@@ -114,7 +114,7 @@ apply:
 Two different GraphBLAS implementations written in Julia are used to build *BFS* algorithm:
 
 * [SuiteSparseGraphBLAS.jl](https://github.com/abhinavmehndiratta/SuiteSparseGraphBLAS.jl) by Abhinav Mehndiratta. It tries to adhere as much as possible to the GraphBLAS C API Specification (see https://people.eecs.berkeley.edu/~aydin/GraphBLAS_API_C_v13.pdf), and has currently implemented the majority of fundamental GraphBLAS primitives;
-* [SuiteSparseGraphBLAS.jl](https://github.com/cvdlab/SuiteSparseGraphBLAS.jl) by Computational Visual Design Lab, laboratory located in RomaTre University, related to the Department of Computer Engineering and the Department of Mathematics and Physics (for additional information, visit http://cvdlab.org/). This implementation is a fork of the former, and brings fundamental GraphBLAS primitive in a more "Julian" fashion.
+* [SuiteSparseGraphBLAS.jl](https://github.com/cvdlab/SuiteSparseGraphBLAS.jl) by Computational Visual Design Lab, laboratory located in RomaTre University, related to the Department of Computer Engineering and the Department of Mathematics and Physics (for additional information, visit http://cvdlab.org/). This implementation is a fork of the former, and brings fundamental GraphBLAS primitives in a more "Julian" fashion.
 
 Notice that, precisely speaking, both the first and the second implementations presented above are just wrappers for the C library SuiteSparse:GraphBLAS (see https://github.com/DrTimothyAldenDavis/GraphBLAS), one of the main full implementation of GraphBLAS standard, that implements in turn the GraphBLAS C API Specification.
 
@@ -128,14 +128,14 @@ The (undirected) graph which we want to test is represented as the $n \times n$ 
 
 there are two vectors $v$ and $q$ of length $n$, representing respectively the level of each graph node in the *BFS* and the set of nodes belonging to the *frontier* (namely the nodes discovered in one of the at most $n$ iterations that *BFS* does). At each *BFS* iteration, there is a matrix-vector product between $A$ and $q$ resulting in a frontier update (one can easily verify that; for an explicit example of this property, see @kepner2017graphblas). Vector $v$ is updated: $v[i] = k$ if the node $i$ is visited (namely, appears in the frontier) for the first time at the $k$-th iteration. Nodes already visited are masked out from the frontier, and the algorithm loops until $n$ iterations are done or until the frontier empties.
 
-GraphBLAS based *BFSs* have several advantages over the SparseArrays based *BFS*: just a few standard GraphBLAS operations are needed in order to write the algorithm and, in the algorithm design phase, it is easy to choose the semiring that best suits the wanted operation (notice that, just choosing another semiring, one could go a step further and possibly analyze different properties of the same graph with very little effort). 
-Moreover, there is no need to build from scratch a heavily optimized algorithm, since every GraphBLAS operation is internally optimized; thus, using different GraphBLAS primitives results in an efficient algorithm.
+GraphBLAS based *BFSs* have several advantages over the SparseArrays based *BFS*: just a few standard GraphBLAS operations are needed in order to write the algorithm and, in the algorithm design phase, it is easy to choose the semiring that best suits the wanted operation (notice that, just choosing another semiring, one could go a step further and possibly build a different algorithm on the same graph with very little effort). 
+Moreover, there is no need to build from scratch a heavily optimized algorithm, since every GraphBLAS operation is internally optimized; thus, using GraphBLAS primitives results in an efficient algorithm.
 
-On the contrary, building a SparseArrays based *BFS* (without referring to one of the highly efficient *BFS* implementations present in literature) requires explicit optimizations and clever usage of the features Julia provides, and even that is not enough to produce something which could reach the performance of GraphBLAS based *BFS*.
+On the contrary, building a SparseArrays based *BFS* (without referring to one of the highly efficient *BFS* implementations present in literature) requires explicit optimizations and clever usage of the features Julia provides, and that is not enough to produce something which could reach the performance of GraphBLAS based *BFS*.
 
 
 # Benchmark results
-We present benchmark results for the three *BFS* algorithms implemented in sparse.jl. In order to have a statistically accurate benchmark, we use BenchmarkTools.jl, a Julia package devoted to track Julia code performance in a statistically accurate manner. All the tests were executed on a machine with a Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz capable of $4.594591126143963e10$ *FLOPs* (Floating Point Operations per second), estimated through the Julia function `peakflops()`.
+We present benchmark results for the three *BFS* algorithms implemented in sparse.jl. We test algorithms' performance over $100\times 100, 1000\times 1000, 10^5\times 10^5, 10^7\times 10^7$ input matrices. In order to have a statistically accurate benchmark, we use BenchmarkTools.jl, a Julia package devoted to track Julia code performance in a statistically accurate manner. All the tests were executed on a machine with a Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz capable of $4.594591126143963e10$ *FLOPs* (Floating Point Operations per second), estimated through the Julia function `peakflops()`. 
 
 
 ## `GraphBLAS_bfs!`
@@ -317,7 +317,7 @@ BenchmarkTools.Trial:
 A few consideration emerge from the benchmark. While `GraphBLAS_bfs!` algorithm is a little faster for small inputs compared with `GraphBLAS_bfs_cvd`, the latter becomes faster for very large inputs. On the other side, the former has lower memory usage even for large inputs compared with the latter. As regards to `bfs_primitive` algorithm, we observe that it is not as efficient as the other two, to the point that running `bfs_primitive` on large inputs becomes impractical (especially for the amount of time needed by the computation to give an output). 
 
 # Conclusions 
-In this document we have talked about *SPARSE* project and its associated Julia package sparse.jl. Our aim was to present GraphBLAS, a cutting edge mathematical abstraction for operating with very large graphs using the language of linear algebra, and to benchmark three different *BFS* implementations in order to show the advantages that working with a high performance standard such as GraphBLAS could bring to the world of graph algorithms. 
+In this document we have talked about *SPARSE* project and its associated Julia package sparse.jl. Our aim was to present GraphBLAS, a cutting edge mathematical abstraction for operating with very large graphs using the language of linear algebra, and to benchmark three different *BFS* implementations in order to show the advantages that working with a high performance standard such as GraphBLAS could bring to the field of graph algorithms. 
 
 
 

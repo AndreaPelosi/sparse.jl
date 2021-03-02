@@ -21,7 +21,7 @@ else
     ]
 end
 
-println(tests)
+println("testing the following functionalities:", tests)
 
 @testset "BFS" begin 
     for t in tests
