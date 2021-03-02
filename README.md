@@ -13,7 +13,7 @@ julia> Pkg.add("https://github.com/AndreaPelosi/sparse.jl")
 
 ## Requirements
 To build the graphs on which to execute *BFS,* you need `GraphBLASInterface.jl` and `SuiteSparseGraphBLAS.jl` Julia packages. 
-You can download them typing `julia` command inside a terminal and, once inside the Julia REPL, typing the following instructions:
+To download them, type the following instructions inside the Julia REPL:
 
 ```
 julia> using Pkg
@@ -23,11 +23,11 @@ julia> Pkg.add("SuiteSparseGraphBLAS"); Pkg.add("GraphBLASInterface")
 
 ## Usage 
 
-
+You can write your own benchmarks using the functions that sparse.jl provide or you can execute one of the examples in the `examples/` directory by pasting inside the Julia REPL the code you wish to execute (the only exception is the file `sparse/examples/GraphBLAS_Julia_cvdlab/bfs_demo.jl`, read it carefully before executing).
 
 ## Test
 
-To test the correctness of the algorithms implemented in sparse.jl, just type `julia` command inside a terminal and, once inside the Julia REPL, type the following instructions:
+To test the correctness of the algorithms implemented in sparse.jl, type the following instructions inside the Julia REPL:
 
 ```
 julia> using Pkg
