@@ -11,6 +11,8 @@ julia> using Pkg
 julia> Pkg.add("https://github.com/AndreaPelosi/sparse.jl")
 ```
 
+To easily have access to sparse.jl files, just clone sparse.jl repository.
+
 ## Requirements
 To build the graphs on which to execute *BFS,* you need `GraphBLASInterface.jl` and `SuiteSparseGraphBLAS.jl` Julia packages. 
 To download them, type the following instructions inside the Julia REPL:
