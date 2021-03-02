@@ -9,12 +9,12 @@ using SuiteSparseGraphBLAS, GraphBLASInterface
 Compute BFS on the graph represented by 'A' starting from 'source' 
 using GraphBLAS. The output is written in v.
 
-#Arguments
+# Arguments
 - `A::GrB_Matrix{T}`: the matrix representing input graph
 - `v::GrB_Vector{U}, U<:Integer`: the vector that will contain BFS output
 - `source::ZeroBasedIndex`: the source from which BFS starts
 
-#Examples 
+# Examples 
 ```julia-repl
 
 julia> GrB_init(GrB_NONBLOCKING)

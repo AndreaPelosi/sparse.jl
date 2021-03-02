@@ -4,15 +4,6 @@ using SuiteSparseGraphBLAS
     GraphBLAS_sparse_square_matrix_cvd!(A::GBMatrix{T}) where T
 
 Build a random sparse square matrix using GraphBLAS CVD version.
-
-#Examples 
-```julia-repl
-julia> nrows, ncols = 100, 100
-
-julia> A = from_type(Int64, nrows, ncols)
-
-julia> GraphBLAS_sparse_square_matrix_cvd!(A)
-```
 """
 function GraphBLAS_sparse_square_matrix_cvd!(A::GBMatrix{T}) where T
 

@@ -7,7 +7,7 @@ using SparseArrays
 
 Compute BFS on the graph represented by 'A' starting from 'source' using Julia primitives.
 
-#Examples 
+# Examples
 ```julia-repl
 julia> dim = 100
 

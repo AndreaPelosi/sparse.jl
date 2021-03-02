@@ -7,17 +7,6 @@ using GraphBLASInterface, SuiteSparseGraphBLAS
     GraphBLAS_sparse_square_matrix!(A::GrB_Matrix{T}, dim::Int) where T
 
 Build a random sparse square matrix of dimension 'dim'x'dim' using GraphBLAS.
-
-#Examples 
-```julia-repl
-julia> GrB_init(GrB_NONBLOCKING)
-
-julia> dim = 100
-
-julia> A = GrB_Matrix(Int64, dim, dim)
-
-julia> GraphBLAS_sparse_square_matrix!(A, dim)
-```
 """
 function GraphBLAS_sparse_square_matrix!(
     A::GrB_Matrix{T}, 
