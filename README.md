@@ -23,7 +23,7 @@ julia> Pkg.add("SuiteSparseGraphBLAS"); Pkg.add("GraphBLASInterface")
 
 ## Usage 
 
-You can write your own benchmarks using the functions that sparse.jl provide or you can execute one of the examples in the `examples/` directory by pasting inside the Julia REPL the code you wish to execute (the only exception is the file `sparse/examples/GraphBLAS_Julia_cvdlab/bfs_demo.jl`, read it carefully before executing).
+You can write your own benchmarks using the functions that sparse.jl provide or you can execute one of the examples in the `examples/` directory by pasting inside the Julia REPL the code you wish to execute (the only exception is the file `sparse/examples/GraphBLAS_Julia_cvdlab/bfs_demo_cvd.jl`, read it carefully before executing).
 
 ## Test
 
