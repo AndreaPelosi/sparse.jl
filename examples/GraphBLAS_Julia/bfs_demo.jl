@@ -1,48 +1,47 @@
 # BFS demo using abhinavmehndiratta SuiteSparseGraphBLAS Julia wrapper
 # (can be found at https://github.com/abhinavmehndiratta/SuiteSparseGraphBLAS.jl)
 
-#using Pkg
-#Pkg.activate(".")
+using Pkg
+Pkg.activate(".")
 
 using GraphBLASInterface, SuiteSparseGraphBLAS, BenchmarkTools
 #include("../../src/GraphBLAS_sparse_square_matrix.jl")
 #include("../../src/GraphBLAS_bfs.jl")
 
 
-function run_bfs_demo()
-    # Begin GraphBLAS session
-    GrB_init(GrB_NONBLOCKING);
+# Begin GraphBLAS session
+GrB_init(GrB_NONBLOCKING);
 
-    # GraphBLAS matrix and vector dimensions 
-    dim = 100;
+# GraphBLAS matrix and vector dimensions 
+dim = 100;
 
-    # Build a random sparse GraphBLAS matrix  
-    A = GrB_Matrix(Int64, dim, dim);
-    GraphBLAS_sparse_square_matrix!(A, dim);
+# Build a random sparse GraphBLAS matrix  
+A = GrB_Matrix(Int64, dim, dim);
+GraphBLAS_sparse_square_matrix!(A, dim);
 
-    #@GxB_fprint(A, GxB_COMPLETE);
+#@GxB_fprint(A, GxB_COMPLETE);
 
-    # Create an empty GraphBLAS integer vector
-    v = GrB_Vector(Int64, dim);
+# Create an empty GraphBLAS integer vector
+v = GrB_Vector(Int64, dim);
 
-    bench = @benchmark GraphBLAS_bfs!(A, v, ZeroBasedIndex(0))
+bench = @benchmark GraphBLAS_bfs!(A, v, ZeroBasedIndex(0))
 
-    #println("BFS result:");
-    #@GxB_fprint(v, GxB_COMPLETE);
+#println("BFS result:");
+#@GxB_fprint(v, GxB_COMPLETE);
 
-    dropzeros!(v);
-    GrB_wait();
+dropzeros!(v);
+GrB_wait();
 
-    #println("BFS result dropping 0 elements:")
-    #@GxB_fprint(v, GxB_COMPLETE);
+#println("BFS result dropping 0 elements:")
+#@GxB_fprint(v, GxB_COMPLETE);
 
 
-    # Free workspace
-    GrB_Matrix_free(A);
-    GrB_Vector_free(v);
+# Free workspace
+GrB_Matrix_free(A);
+GrB_Vector_free(v);
 
-    # End GraphBLAS session
-    GrB_finalize();
+# End GraphBLAS session
+GrB_finalize();
 
-    display(bench);    
-end
+display(bench);    
+
