@@ -27,7 +27,7 @@ include("../../src/GraphBLAS_sparse_square_matrix.jl")
 
     @test GraphBLAS_bfs!(A, v, ZeroBasedIndex(0)) == (GrB_SUCCESS)
 
-    dropzeros!(v);
+    SuiteSparseGraphBLAS.dropzeros!(v);
 
     sol = GrB_Vector(Int64, dim)
     GrB_Vector_setElement(sol, 1, ZeroBasedIndex(0))
