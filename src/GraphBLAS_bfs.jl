@@ -17,21 +17,21 @@ using GraphBLAS. The output is written in v.
 # Examples 
 ```julia-repl
 
-julia> GrB_init(GrB_NONBLOCKING)
+julia> GrB_init(GrB_NONBLOCKING);
 
-julia> dim = 100
+julia> dim = 100;
 
-julia> A = GrB_Matrix(Int64, dim, dim)
+julia> A = GrB_Matrix(Int64, dim, dim);
 
-julia> GraphBLAS_sparse_square_matrix!(A, dim)
+julia> GraphBLAS_sparse_square_matrix!(A, dim);
 
-julia> v = GrB_Vector(Int64, dim)
+julia> v = GrB_Vector(Int64, dim);
 
-julia> GraphBLAS_bfs!(A, v, ZeroBasedIndex(0))
+julia> GraphBLAS_bfs!(A, v, ZeroBasedIndex(0));
 
-julia> dropzeros!(v)
+julia> dropzeros!(v);
 
-julia> GrB_wait()
+julia> GrB_wait();
 ```
 """
 function GraphBLAS_bfs!(

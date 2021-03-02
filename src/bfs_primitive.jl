@@ -9,13 +9,13 @@ Compute BFS on the graph represented by `A` starting from `source` using Julia p
 
 # Examples
 ```julia-repl
-julia> dim = 100
+julia> dim = 100;
 
-julia> A = sparse_square_matrix(dim, Bool)
+julia> A = sparse_square_matrix(dim, Bool);
 
-julia> source = 1
+julia> source = 1;
 
-julia> bfs_primitive(A,source)
+julia> bfs_primitive(A,source);
 ```
 """
 function bfs_primitive(

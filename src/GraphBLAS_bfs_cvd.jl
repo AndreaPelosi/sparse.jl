@@ -13,15 +13,15 @@ using GraphBLAS CVD version.
 
 # Examples 
 ```julia-repl
-julia> nrows, ncols = 100, 100
+julia> nrows, ncols = 100, 100;
 
-julia> A = from_type(Int64, nrows, ncols)
+julia> A = from_type(Int64, nrows, ncols);
 
-julia> GraphBLAS_sparse_square_matrix_cvd!(A)
+julia> GraphBLAS_sparse_square_matrix_cvd!(A);
 
-julia> source = 1
+julia> source = 1;
 
-julia> GraphBLAS_bfs_cvd(A, source)
+julia> GraphBLAS_bfs_cvd(A, source);
 ```
 """
 function GraphBLAS_bfs_cvd(
